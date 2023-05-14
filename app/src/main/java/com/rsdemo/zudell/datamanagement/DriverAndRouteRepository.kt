@@ -11,6 +11,9 @@ class DriverAndRouteRepository(
     private val driverDao: DriverDao,
     private val routeDao: RouteDao
 ) {
+    val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
+        throwable.printStackTrace()
+    }
 
     @SuppressLint("CheckResult")
     suspend fun getDriversAndRoutes(){
@@ -18,14 +21,15 @@ class DriverAndRouteRepository(
 
         val drivers = ArrayList<Models.RoomDriver>()
         val routes = ArrayList<Models.RoomRoute>()
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             val data = apiClient.getData()
             data.body()?.drivers?.forEach {driver ->
                 drivers.add(
                     Models.RoomDriver(
                         id = driver.id,
                         firstName = driver.name.split(" ").first(),
-                        lastName = driver.name.split(" ").last()))
+                        lastName = driver.name.split(" ").last())
+                )
             }
             driverDao.insertAll(drivers)
             data.body()?.routes?.forEach { route ->

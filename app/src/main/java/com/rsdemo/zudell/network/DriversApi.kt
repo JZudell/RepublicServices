@@ -4,7 +4,6 @@ import com.rsdemo.zudell.util.Constants
 import retrofit2.Response
 import retrofit2.http.GET
 
-
 interface DriversApi {
 
     @GET(Constants.DATA_ENDPOINT)

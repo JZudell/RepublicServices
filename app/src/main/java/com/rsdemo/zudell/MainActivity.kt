@@ -20,7 +20,6 @@ import com.rsdemo.zudell.ui.theme.RepublicServicesTheme
 
 class MainActivity : ComponentActivity() {
 
-
     //Shortcut DB initialization for sake of excersize.
     private val driverDb by lazy {
         Room.databaseBuilder(
